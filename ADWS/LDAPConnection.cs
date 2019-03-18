@@ -35,7 +35,8 @@ namespace PingCastle.ADWS
 			Trace.WriteLine("BaseObject=" + scope);
 			Trace.WriteLine("Filter=" + filter);
 			DirectoryEntry entry;
-			int numberOfObjectAlreadyExtracted = 0;
+            TimeSpan verylongtime = new TimeSpan(999,999,999,999);
+            int numberOfObjectAlreadyExtracted = 0;
 			try
 			{
 				if (Credential == null)
@@ -50,8 +51,12 @@ namespace PingCastle.ADWS
 				DirectorySearcher clsDS = new DirectorySearcher(entry);
 				clsDS.SearchRoot = entry;
 				clsDS.Filter = filter;
-				clsDS.PageSize = 500;
-				switch (scope)
+				clsDS.PageSize = 10000;
+				clsDS.SizeLimit = 999999999;
+				clsDS.ServerTimeLimit = verylongtime;
+				clsDS.ServerPageTimeLimit = verylongtime;
+				clsDS.ClientTimeout = verylongtime;
+                switch (scope)
 				{
 					case "OneLevel":
 						clsDS.SearchScope = SearchScope.OneLevel;
